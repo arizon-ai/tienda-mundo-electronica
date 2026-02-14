@@ -1,0 +1,32 @@
+/* Mundo Electronica - Custom Overrides */
+
+/* Header logo: constrain the large PNG to fit the navbar cleanly */
+.main-logo-wrap .main-logo {
+  max-height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Footer icon: constrain the atom icon */
+.sellifyx-logo-wrap .logo-icon {
+  max-height: 50px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 991px) {
+  .main-logo-wrap .main-logo {
+    max-height: 32px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .main-logo-wrap .main-logo {
+    max-height: 28px;
+  }
+  
+  .sellifyx-logo-wrap .logo-icon {
+    max-height: 40px;
+  }
+}
