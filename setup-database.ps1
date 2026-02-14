@@ -1,5 +1,5 @@
 $supabaseUrl = 'https://bd.clients.arizonai.cloud'
-$serviceKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc3MDc0MTg0MCwiZXhwIjo0OTI2NDE1NDQwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.GU0DGkXjUFmTl9yL49e67U_JAt0Rz4ORyBVJ68jmFWg'
+$serviceKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc3MDc0MTg0MCwiZXhwIjo0OTI2NDE1NDQwLCJyb2xlIjoic2VydmljZV9yb2xlIn0.clcX2fjUJyO5bvThFqnlnoGrt84BC_iayNhqi_zPox4'
 
 $headers = @{
     'apikey'        = $serviceKey

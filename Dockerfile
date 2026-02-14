@@ -15,7 +15,9 @@ RUN rm -f /usr/share/nginx/html/Dockerfile \
     /usr/share/nginx/html/.gitignore \
     /usr/share/nginx/html/.gitattributes && \
     rm -rf /usr/share/nginx/html/.git \
-    /usr/share/nginx/html/assets/Docs\ Legales*
+    /usr/share/nginx/html/assets/Docs\ Legales* && \
+    rm -f /usr/share/nginx/html/*.ps1 \
+    /usr/share/nginx/html/*.md
 
 EXPOSE 80
 
