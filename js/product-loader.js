@@ -117,8 +117,8 @@
             ? '$ ' + product.precio.toFixed(2) + ' USD'
             : '$ ' + product.precio + ' USD';
         var imgSrc = product.imagen_url || PLACEHOLDER_IMG;
-        var name = escapeHtml(product.nombre || 'Producto');
-        var desc = escapeHtml(truncate(product.descripcion || '', 120));
+        var name = escapeHtml(sanitizeName(product.nombre));
+        var desc = escapeHtml(truncate(sanitizeName(product.descripcion || ''), 120));
         var detailUrl = '/product-detail?codigo=' + encodeURIComponent(product.codigo);
         var category = escapeHtml(product.categoria || 'General');
 
@@ -265,6 +265,17 @@
 
     function truncate(str, max) {
         return str.length > max ? str.slice(0, max) + '…' : str;
+    }
+
+    /** Clean product names: collapse multiple quotes, trim leading/trailing quotes */
+    function sanitizeName(str) {
+        if (!str) return 'Producto';
+        // Replace 2+ consecutive double-quotes with a single one
+        str = str.replace(/"{2,}/g, '"');
+        // Remove leading/trailing double-quotes
+        str = str.replace(/^"+|"+$/g, '');
+        // Also clean up descriptions with leading quotes
+        return str.trim();
     }
 
     // ─── Public API ─────────────────────────────────────────
