@@ -19,58 +19,96 @@
     }
 
     // ========================
-    // Products
+    // Products (from 'productos' table)
     // ========================
 
     async function fetchProducts(options) {
         var client = getClient();
-        if (!client) return { data: null, error: 'No client' };
+        if (!client) return { data: null, error: 'No client', count: 0 };
 
         options = options || {};
-        var query = client
-            .from('products')
-            .select('*, categories(name, slug)')
-            .eq('in_stock', true)
-            .order('featured', { ascending: false })
-            .order('created_at', { ascending: false });
+        var page = options.page || 1;
+        var limit = options.limit || 24;
+        var offset = (page - 1) * limit;
 
-        if (options.category) {
-            query = query.eq('categories.slug', options.category);
+        var query = client
+            .from('productos')
+            .select('codigo, nombre, precio, imagen_url, descripcion, categoria', { count: 'exact' })
+            .eq('cliente', 'mundo-electronica');
+
+        // Category filter
+        if (options.categoria && options.categoria !== 'all') {
+            query = query.eq('categoria', options.categoria);
         }
-        if (options.featured) {
-            query = query.eq('featured', true);
+
+        // Search filter
+        if (options.search) {
+            query = query.ilike('nombre', '%' + options.search + '%');
         }
-        if (options.limit) {
-            query = query.limit(options.limit);
-        }
+
+        // Sorting
+        var sortField = options.sort || 'nombre';
+        var ascending = options.order !== 'desc';
+        query = query.order(sortField, { ascending: ascending });
+
+        // Pagination
+        query = query.range(offset, offset + limit - 1);
 
         var result = await query;
-        return result;
+        var total = result.count || 0;
+
+        return {
+            data: result.data,
+            error: result.error,
+            total: total,
+            page: page,
+            limit: limit,
+            totalPages: Math.ceil(total / limit)
+        };
     }
 
-    async function fetchProduct(slug) {
+    async function fetchProduct(codigo) {
         var client = getClient();
         if (!client) return { data: null, error: 'No client' };
 
         var result = await client
-            .from('products')
-            .select('*, categories(name, slug)')
-            .eq('slug', slug)
+            .from('productos')
+            .select('*')
+            .eq('cliente', 'mundo-electronica')
+            .eq('codigo', codigo)
             .single();
 
         return result;
     }
 
     // ========================
-    // Categories
+    // Categories (from 'productos' distinct categoria)
     // ========================
 
     async function fetchCategories() {
         var client = getClient();
         if (!client) return { data: null, error: 'No client' };
 
-        var result = await client.from('categories').select('*').order('name');
-        return result;
+        var result = await client
+            .from('productos')
+            .select('categoria')
+            .eq('cliente', 'mundo-electronica')
+            .not('categoria', 'is', null);
+
+        if (result.error) return result;
+
+        // Extract unique categories
+        var seen = {};
+        var categories = [];
+        (result.data || []).forEach(function (row) {
+            if (row.categoria && !seen[row.categoria]) {
+                seen[row.categoria] = true;
+                categories.push(row.categoria);
+            }
+        });
+        categories.sort();
+
+        return { data: categories, error: null };
     }
 
     // ========================
