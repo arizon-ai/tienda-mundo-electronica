@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Admin CMS — Mundo Electrónica</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <style>
+        /* ═══════════════════════════════════════════════════
+           ADMIN CMS — Dark Theme matching existing site
+           ═══════════════════════════════════════════════════ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* ─── Layout ─── */
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background: rgba(255, 255, 255, 0.03);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+            min-height: 100vh;
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .sidebar-brand h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-brand span {
+            font-size: 12px;
+            color: #635bff;
+            font-weight: 600;
+            background: rgba(99, 91, 255, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .sidebar-nav {
+            padding: 12px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .sidebar-nav a.active {
+            color: #fff;
+            background: rgba(99, 91, 255, 0.1);
+            border-left-color: #635bff;
+        }
+
+        .sidebar-nav a .nav-icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar-footer a {
+            color: #635bff;
+            text-decoration: none;
+        }
+
+        /* ─── Page Header ─── */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+
+        /* ─── Stats cards ─── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(99, 91, 255, 0.3);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 500;
+        }
+
+        /* ─── Tables ─── */
+        .admin-table-wrap {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .table-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.8);
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .table-overflow {
+            overflow-x: auto;
+        }
+
+        /* ─── Buttons ─── */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #635bff 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(99, 91, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .btn-danger {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 82, 82, 0.25);
+        }
+
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        /* ─── Inputs ─── */
+        .input {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            padding: 10px 14px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.15s;
+            width: 100%;
+        }
+
+        .input:focus {
+            border-color: #635bff;
+        }
+
+        .input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        select.input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+
+        select.input option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        textarea.input {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .search-input {
+            max-width: 280px;
+        }
+
+        /* ─── Forms ─── */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ─── Modal ─── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            width: 560px;
+            max-width: 92vw;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(10px);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.open .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* ─── Badges ─── */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: rgba(0, 200, 83, 0.15);
+            color: #69f0ae;
+        }
+
+        .badge-warning {
+            background: rgba(255, 193, 7, 0.15);
+            color: #ffd54f;
+        }
+
+        .badge-error {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+        }
+
+        /* ─── Pagination ─── */
+        .table-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .pagination-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .pagination-btns button {
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.6);
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .pagination-btns button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .pagination-btns button:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .pagination-btns button.active {
+            background: #635bff;
+            border-color: #635bff;
+            color: white;
+        }
+
+        /* ─── Toast notifications ─── */
+        .admin-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .admin-toast-inner {
+            background: #1a1a1a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ─── Section pages ─── */
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        /* ─── Login page ─── */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+        }
+
+        .login-card h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .login-card p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 32px;
+        }
+
+        .login-card .form-group {
+            text-align: left;
+        }
+
+        .login-error {
+            color: #ff5252;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        /* ─── Categories section ─── */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border-color 0.15s;
+        }
+
+        .category-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .category-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .category-count {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        /* ─── Empty state ─── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+        }
+
+        /* ─── Loading ─── */
+        .loading-spinner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #635bff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ─── Responsive ─── */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: rgba(99, 91, 255, 0.2);
+            border: 1px solid rgba(99, 91, 255, 0.3);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .admin-sidebar.open {
+                transform: translateX(0);
+            }
+
+            .admin-main {
+                margin-left: 0;
+                padding: 20px;
+                padding-top: 60px;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+
+        /* ─── Order detail ─── */
+        .order-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .order-field {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .order-field-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .order-field-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        /* ─── Truncate text ─── */
+        .truncate {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .truncate-300 {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Page -->
+    <div id="login-page" class="login-page">
+        <div class="login-card">
+            <div style="font-size:48px;margin-bottom:16px;">🛠️</div>
+            <h1>Admin CMS</h1>
+            <p>Mundo Electrónica — Panel de Administración</p>
+            <div id="login-error" class="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" class="input" placeholder="admin@tiendamundoelectronica.com"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-password" class="input" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn btn-primary"
+                    style="width:100%;padding:14px;font-size:15px;margin-top:8px;">
+                    Iniciar Sesión
+                </button>
+            </form>
+            <p style="margin-top:24px;font-size:12px;color:rgba(255,255,255,0.3);">
+                🔒 Acceso restringido a administradores
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Layout -->
+    <div id="admin-layout" class="admin-layout" style="display:none;">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="admin-sidebar">
+            <div class="sidebar-brand">
+                <h2>🛒 Mundo Electrónica <span>CMS</span></h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a onclick="showSection('dashboard')" data-section="dashboard" class="active">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+                <a onclick="showSection('products')" data-section="products">
+                    <span class="nav-icon">📦</span> Productos
+                </a>
+                <a onclick="showSection('categories')" data-section="categories">
+                    <span class="nav-icon">🏷️</span> Categorías
+                </a>
+                <a onclick="showSection('orders')" data-section="orders">
+                    <span class="nav-icon">💳</span> Pedidos
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <p id="admin-user-email">—</p>
+                <p style="margin-top:8px;"><a href="/">← Volver a la tienda</a> · <a href="#" onclick="logout()">Cerrar
+                        sesión</a></p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+
+            <!-- ═══ DASHBOARD ═══ -->
+            <section id="section-dashboard" class="admin-section active">
+                <div class="page-header">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Resumen general de la tienda</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="stats-grid">
+                    <div class="stat-card">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <div class="table-header">
+                        <h3>Pedidos Recientes</h3>
+                    </div>
+                    <div class="table-overflow">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-orders-body">
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ PRODUCTS ═══ -->
+            <section id="section-products" class="admin-section">
+                <div class="page-header">
+                    <div>
+                        <h1>Productos</h1>
+                        <p id="products-count">Cargando...</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openProductModal()">
+                        + Nuevo Producto
+                    </button>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <div class="table-header">
+                        <div class="table-actions" style="width:100%;flex-wrap:wrap;">
+                            <input type="search" id="products-search" class="input search-input"
+                                placeholder="Buscar por nombre, código..." onkeyup="debounceProductSearch()" />
+                            <select id="products-category-filter" class="input" style="max-width:200px;"
+                                onchange="loadProducts(1)">
+                                <option value="all">Todas las categorías</option>
+                            </select>
+                            <select id="products-sort" class="input" style="max-width:160px;"
+                                onchange="loadProducts(1)">
+                                <option value="codigo">Código ↑</option>
+                                <option value="nombre">Nombre ↑</option>
+                                <option value="precio">Precio ↑</option>
+                                <option value="categoria">Categoría ↑</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-overflow">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Img</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Precio</th>
+                                    <th>Categoría</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-table-body">
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="products-pagination"></div>
+                </div>
+            </section>
+
+            <!-- ═══ CATEGORIES ═══ -->
+            <section id="section-categories" class="admin-section">
+                <div class="page-header">
+                    <div>
+                        <h1>Categorías</h1>
+                        <p id="categories-count">Cargando...</p>
+                    </div>
+                </div>
+                <div class="categories-grid" id="categories-grid">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ ORDERS ═══ -->
+            <section id="section-orders" class="admin-section">
+                <div class="page-header">
+                    <div>
+                        <h1>Pedidos</h1>
+                        <p id="orders-count">Cargando...</p>
+                    </div>
+                </div>
+
+                <div class="admin-table-wrap">
+                    <div class="table-header">
+                        <div class="table-actions" style="width:100%;">
+                            <input type="search" id="orders-search" class="input search-input"
+                                placeholder="Buscar por email, nombre..." onkeyup="debounceOrderSearch()" />
+                            <select id="orders-status-filter" class="input" style="max-width:180px;"
+                                onchange="loadOrders(1)">
+                                <option value="all">Todos los estados</option>
+                                <option value="completed">Completados</option>
+                                <option value="pending">Pendientes</option>
+                                <option value="failed">Fallidos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-overflow">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Cliente</th>
+                                    <th>Email</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body">
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="loading-spinner">
+                                            <div class="spinner"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination" id="orders-pagination"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ═══ PRODUCT MODAL ═══ -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="product-modal-title">Nuevo Producto</h3>
+                <button class="modal-close" onclick="closeProductModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form" onsubmit="saveProduct(event)">
+                    <input type="hidden" id="product-edit-codigo" />
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Código *</label>
+                            <input type="text" id="product-codigo" class="input" placeholder="MUN-0001" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Precio (USD) *</label>
+                            <input type="number" step="0.01" id="product-precio" class="input" placeholder="29.99"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre *</label>
+                        <input type="text" id="product-nombre" class="input" placeholder="Nombre del producto"
+                            required />
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="product-categoria" class="input">
+                            <option value="">Sin categoría</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="product-descripcion" class="input"
+                            placeholder="Descripción del producto..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen</label>
+                        <input type="url" id="product-imagen" class="input" placeholder="https://..." />
+                    </div>
+                    <div class="form-group">
+                        <label>O subir imagen</label>
+                        <input type="file" id="product-image-upload" accept="image/*" class="input"
+                            onchange="handleImageUpload(event)" />
+                        <div id="upload-status" style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px;">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeProductModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="document.getElementById('product-form').requestSubmit();"
+                    id="product-save-btn">
+                    Guardar Producto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ ORDER DETAIL MODAL ═══ -->
+    <div class="modal-overlay" id="order-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Detalle del Pedido</h3>
+                <button class="modal-close" onclick="closeOrderModal()">✕</button>
+            </div>
+            <div class="modal-body" id="order-modal-body">
+                <!-- filled dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ CATEGORY RENAME MODAL ═══ -->
+    <div class="modal-overlay" id="category-modal">
+        <div class="modal" style="max-width:420px;">
+            <div class="modal-header">
+                <h3>Renombrar Categoría</h3>
+                <button class="modal-close" onclick="closeCategoryModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Categoría Actual</label>
+                    <input type="text" id="category-old-name" class="input" readonly />
+                </div>
+                <div class="form-group">
+                    <label>Nuevo Nombre</label>
+                    <input type="text" id="category-new-name" class="input" placeholder="Nuevo nombre..." />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCategoryModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="renameCategory()">Renombrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
