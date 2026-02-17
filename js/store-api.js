@@ -36,14 +36,26 @@
             .select('codigo, nombre, precio, imagen_url, descripcion, categoria', { count: 'exact' })
             .eq('cliente', 'mundo-electronica');
 
-        // Category filter
+        // Category filter (supports single string or array for multi-select)
         if (options.categoria && options.categoria !== 'all') {
-            query = query.eq('categoria', options.categoria);
+            if (Array.isArray(options.categoria)) {
+                query = query.in('categoria', options.categoria);
+            } else {
+                query = query.eq('categoria', options.categoria);
+            }
         }
 
-        // Search filter
+        // Price range filter
+        if (typeof options.precio_min === 'number') {
+            query = query.gte('precio', options.precio_min);
+        }
+        if (typeof options.precio_max === 'number') {
+            query = query.lte('precio', options.precio_max);
+        }
+
+        // Search filter (name + description)
         if (options.search) {
-            query = query.ilike('nombre', '%' + options.search + '%');
+            query = query.or('nombre.ilike.%' + options.search + '%,descripcion.ilike.%' + options.search + '%');
         }
 
         // Sorting

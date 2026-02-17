@@ -29,149 +29,536 @@
   <script
     type="text/javascript">window.__WEBFLOW_CURRENCY_SETTINGS = { "currencyCode": "USD", "symbol": "$", "decimal": ".", "fractionDigits": 2, "group": ",", "template": "{{wf {\"path\":\"symbol\",\"type\":\"PlainText\"} }} {{wf {\"path\":\"amount\",\"type\":\"CommercePrice\"} }} {{wf {\"path\":\"currencyCode\",\"type\":\"PlainText\"} }}", "hideDecimalForWholeNumbers": false };</script>
   <style>
-    .dynamic-store-controls {
-      padding: 20px 0
-    }
-
-    .store-search-sort-wrap {
+    /* ─── Store Search Bar ─────────────────────────── */
+    .store-search-bar {
       display: flex;
       gap: 12px;
       align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 20px
+      margin-bottom: 16px;
     }
 
     .store-search-form {
-      display: flex;
       flex: 1;
-      min-width: 250px;
-      gap: 8px
+      min-width: 0;
+    }
+
+    .search-input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      background: #f9f9f9;
+      padding: 0 12px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .search-input-wrap:focus-within {
+      border-color: #1a1a1a;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(26, 26, 26, .08);
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      color: #999;
+      flex-shrink: 0;
     }
 
     .store-search-input {
       flex: 1;
-      padding: 10px 16px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      padding: 10px 10px;
+      border: none !important;
+      background: transparent !important;
       font-size: 14px;
       font-family: Inter, sans-serif;
-      background: #f9f9f9;
-      transition: border-color .2s
+      outline: none !important;
+      min-width: 0;
     }
 
-    .store-search-input:focus {
-      border-color: #333;
-      outline: none;
-      background: #fff
-    }
-
-    .store-search-btn {
-      padding: 10px 20px;
-      background: #1a1a1a;
-      color: #fff;
+    .search-clear-btn {
+      background: none;
       border: none;
-      border-radius: 8px;
+      font-size: 20px;
+      color: #999;
       cursor: pointer;
-      font-family: Inter, sans-serif;
-      font-size: 14px
+      padding: 0 4px;
+      line-height: 1;
     }
 
-    .store-search-btn:hover {
-      background: #333
+    .search-clear-btn:hover {
+      color: #333;
     }
 
     .store-sort-select {
       padding: 10px 16px;
       border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 14px;
       font-family: Inter, sans-serif;
       background: #f9f9f9;
       cursor: pointer;
-      min-width: 200px
+      min-width: 200px;
+      flex-shrink: 0;
     }
 
     .store-sort-select:focus {
-      border-color: #333;
-      outline: none
+      border-color: #1a1a1a;
+      outline: none;
     }
 
-    .category-filters-wrap {
+    /* ─── Active Filter Tags ──────────────────────── */
+    .active-filters-bar {
       display: flex;
+      align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 16px
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #f5f5f5;
+      border-radius: 10px;
     }
 
-    .category-filter-btn {
-      padding: 8px 18px;
-      border: 1px solid #e0e0e0;
+    .active-filter-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+
+    .filter-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: #1a1a1a;
+      color: #fff;
       border-radius: 20px;
+      font-size: 12px;
+      font-family: Inter, sans-serif;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .filter-tag-remove {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, .7);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .filter-tag-remove:hover {
+      color: #fff;
+    }
+
+    .clear-all-btn {
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 12px;
+      font-family: Inter, sans-serif;
+      cursor: pointer;
+      text-decoration: underline;
+      white-space: nowrap;
+      padding: 4px 8px;
+    }
+
+    .clear-all-btn:hover {
+      color: #333;
+    }
+
+    /* ─── Mobile Filter Toggle ────────────────────── */
+    .filter-toggle-btn {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: Inter, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 16px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .filter-toggle-btn:hover {
+      background: #333;
+    }
+
+    .filter-count-badge {
       background: #fff;
+      color: #1a1a1a;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ─── Store Layout (Sidebar + Grid) ──────────── */
+    .store-layout {
+      display: flex;
+      gap: 28px;
+      position: relative;
+    }
+
+    /* ─── Filter Sidebar ──────────────────────────── */
+    .filter-sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 20px;
+      position: sticky;
+      top: 20px;
+      align-self: flex-start;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+
+    .filter-sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .filter-sidebar-title {
+      font-family: Inter, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    .sidebar-close-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #666;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    /* ─── Filter Sections ─────────────────────────── */
+    .filter-section {
+      margin-bottom: 20px;
+    }
+
+    .filter-section-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 8px 0;
+      font-family: Inter, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .filter-section-toggle .toggle-chevron {
+      transition: transform .2s;
+    }
+
+    .filter-section-toggle[aria-expanded="false"] .toggle-chevron {
+      transform: rotate(-90deg);
+    }
+
+    .filter-section-content {
+      overflow: hidden;
+      transition: max-height .3s ease;
+    }
+
+    .filter-section-content.collapsed {
+      max-height: 0 !important;
+      overflow: hidden;
+    }
+
+    /* Category checkboxes */
+    .filter-checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
       cursor: pointer;
       font-family: Inter, sans-serif;
       font-size: 13px;
-      color: #555;
-      transition: all .2s
+      color: #444;
+      transition: color .2s;
     }
 
-    .category-filter-btn:hover {
-      border-color: #333;
-      color: #333
+    .filter-checkbox-item:hover {
+      color: #1a1a1a;
     }
 
-    .category-filter-btn.active {
+    .filter-checkbox-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #1a1a1a;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .filter-checkbox-label {
+      flex: 1;
+    }
+
+    .filter-checkbox-count {
+      font-size: 12px;
+      color: #aaa;
+      font-weight: 400;
+    }
+
+    /* ─── Price Range Slider ──────────────────────── */
+    .price-slider-container {
+      padding: 8px 0 4px;
+    }
+
+    .price-slider-track {
+      position: relative;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+
+    .price-slider-range {
+      position: absolute;
+      height: 4px;
       background: #1a1a1a;
-      color: #fff;
-      border-color: #1a1a1a
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .price-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background: transparent;
+      pointer-events: none;
+      z-index: 2;
+      margin: 0;
+      padding: 0;
+    }
+
+    .price-slider-thumb::-webkit-slider-runnable-track {
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+    }
+
+    .price-slider-thumb::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+      cursor: pointer;
+      pointer-events: auto;
+      margin-top: -8px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .price-slider-thumb::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 3px solid #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .price-slider-thumb::-moz-range-track {
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+    }
+
+    .price-inputs-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .price-input-group {
+      flex: 1;
+    }
+
+    .price-input-group label {
+      display: block;
+      font-family: Inter, sans-serif;
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .price-input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fff;
+      padding: 0 8px;
+    }
+
+    .price-input-wrap:focus-within {
+      border-color: #1a1a1a;
+    }
+
+    .price-currency {
+      font-family: Inter, sans-serif;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .price-input {
+      width: 100%;
+      border: none;
+      font-family: Inter, sans-serif;
+      font-size: 13px;
+      padding: 7px 4px;
+      background: transparent;
+      outline: none;
+    }
+
+    .price-input::-webkit-inner-spin-button,
+    .price-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .price-input {
+      -moz-appearance: textfield;
+    }
+
+    .price-separator {
+      font-size: 14px;
+      color: #ccc;
+      padding-top: 18px;
+    }
+
+    /* ─── Sidebar Footer ──────────────────────────── */
+    .filter-sidebar-footer {
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+
+    .sidebar-clear-btn {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: Inter, sans-serif;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .sidebar-clear-btn:hover {
+      background: #f5f5f5;
+      border-color: #bbb;
+      color: #333;
+    }
+
+    /* ─── Filter Overlay (mobile) ─────────────────── */
+    .filter-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .4);
+      z-index: 998;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .filter-overlay.visible {
+      display: block;
+      opacity: 1;
+    }
+
+    /* ─── Store Content Area ──────────────────────── */
+    .store-content-area {
+      flex: 1;
+      min-width: 0;
+      position: relative;
     }
 
     .result-count-text {
       font-size: 13px;
       color: #888;
       font-family: Inter, sans-serif;
-      margin-bottom: 8px
+      margin-bottom: 12px;
     }
 
     .dynamic-product-grid {
       display: grid !important;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 24px;
       min-height: 400px;
-      position: relative
+      position: relative;
     }
 
     .dynamic-product-grid .best-seller-collectioin-item {
       width: 100% !important;
-      max-width: 100% !important
+      max-width: 100% !important;
     }
 
     .dynamic-product-grid .best-seller-card-box {
       height: 100%;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
     }
 
     .dynamic-product-grid .best-seller-image-box {
       position: relative;
       overflow: hidden;
-      border-radius: 12px
+      border-radius: 12px;
     }
 
     .dynamic-product-grid .best-seller-image {
       width: 100%;
-      height: 280px;
+      height: 260px;
       object-fit: cover;
-      transition: transform .3s ease
+      transition: transform .3s ease;
     }
 
     .dynamic-product-grid .best-seller-card-box:hover .best-seller-image {
-      transform: scale(1.05)
+      transform: scale(1.05);
     }
 
     .dynamic-product-grid .best-seller-text-warp {
       flex: 1;
-      padding: 12px 0
+      padding: 12px 0;
     }
 
     .loading-overlay {
@@ -183,7 +570,7 @@
       background: rgba(255, 255, 255, .8);
       z-index: 10;
       border-radius: 12px;
-      min-height: 400px
+      min-height: 400px;
     }
 
     .loading-spinner {
@@ -192,12 +579,12 @@
       border: 3px solid #e0e0e0;
       border-top-color: #1a1a1a;
       border-radius: 50%;
-      animation: spin .8s linear infinite
+      animation: spin .8s linear infinite;
     }
 
     @keyframes spin {
       to {
-        transform: rotate(360deg)
+        transform: rotate(360deg);
       }
     }
 
@@ -206,7 +593,7 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      padding: 32px 0 16px
+      padding: 32px 0 16px;
     }
 
     .pagination-btn {
@@ -218,61 +605,89 @@
       font-family: Inter, sans-serif;
       font-size: 14px;
       color: #555;
-      transition: all .2s
+      transition: all .2s;
     }
 
     .pagination-btn:hover:not(.disabled):not(.active) {
       border-color: #333;
-      color: #333
+      color: #333;
     }
 
     .pagination-btn.active {
       background: #1a1a1a;
       color: #fff;
-      border-color: #1a1a1a
+      border-color: #1a1a1a;
     }
 
     .pagination-btn.disabled {
       opacity: .4;
-      cursor: not-allowed
+      cursor: not-allowed;
     }
 
     .pagination-dots {
       padding: 8px 4px;
-      color: #999
+      color: #999;
     }
 
-    @media(max-width:767px) {
-      .dynamic-product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 12px
+    /* ─── Responsive: Tablet ──────────────────────── */
+    @media (max-width: 991px) {
+      .filter-sidebar {
+        position: fixed;
+        top: 0;
+        left: -320px;
+        width: 300px;
+        height: 100%;
+        max-height: 100vh;
+        z-index: 999;
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid #eee;
+        transition: left .3s ease;
+        background: #fff;
       }
 
-      .dynamic-product-grid .best-seller-image {
-        height: 200px
+      .filter-sidebar.open {
+        left: 0;
       }
 
-      .store-search-sort-wrap {
-        flex-direction: column
+      .sidebar-close-btn {
+        display: block;
       }
 
-      .store-search-form {
-        width: 100%
+      .filter-toggle-btn {
+        display: flex;
+      }
+    }
+
+    /* ─── Responsive: Mobile ──────────────────────── */
+    @media (max-width: 767px) {
+      .store-search-bar {
+        flex-direction: column;
       }
 
       .store-sort-select {
-        width: 100%
+        width: 100%;
+        min-width: 0;
       }
-    }
 
-    @media(max-width:479px) {
       .dynamic-product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 12px;
       }
 
       .dynamic-product-grid .best-seller-image {
-        height: 160px
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 479px) {
+      .dynamic-product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .dynamic-product-grid .best-seller-image {
+        height: 160px;
       }
     }
   </style>
@@ -605,29 +1020,131 @@
             <!-- Old Webflow category dropdown removed — dynamic filter buttons loaded via JS -->
           </div>
           <div class="store-product-list-wrap">
-            <div class="dynamic-store-controls">
-              <div class="store-search-sort-wrap">
-                <form id="product-search-form" class="store-search-form">
+            <!-- Search Bar (full-width top) -->
+            <div class="store-search-bar">
+              <form id="product-search-form" class="store-search-form">
+                <div class="search-input-wrap">
+                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                  </svg>
                   <input type="search" id="product-search" class="store-search-input w-input"
-                    placeholder="Buscar productos..." maxlength="256" />
-                  <button type="submit" class="store-search-btn w-button">Buscar</button>
-                </form>
-                <select id="product-sort" class="store-sort-select w-select">
-                  <option value="nombre-asc">Nombre A-Z</option>
-                  <option value="nombre-desc">Nombre Z-A</option>
-                  <option value="precio-asc">Precio: menor a mayor</option>
-                  <option value="precio-desc">Precio: mayor a menor</option>
-                </select>
+                    placeholder="Buscar productos por nombre o descripción..." maxlength="256" autocomplete="off" />
+                  <button type="button" id="search-clear-btn" class="search-clear-btn" style="display:none;"
+                    aria-label="Limpiar búsqueda">&times;</button>
+                </div>
+              </form>
+              <select id="product-sort" class="store-sort-select w-select">
+                <option value="nombre-asc">Nombre A-Z</option>
+                <option value="nombre-desc">Nombre Z-A</option>
+                <option value="precio-asc">Precio: menor a mayor</option>
+                <option value="precio-desc">Precio: mayor a menor</option>
+              </select>
+            </div>
+
+            <!-- Active Filter Tags -->
+            <div id="active-filters" class="active-filters-bar" style="display:none;">
+              <div id="active-filter-tags" class="active-filter-tags"></div>
+              <button id="clear-all-filters" class="clear-all-btn" type="button">Limpiar filtros</button>
+            </div>
+
+            <!-- Mobile Filter Toggle -->
+            <button id="filter-toggle-btn" class="filter-toggle-btn" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 21V14M4 10V3M12 21V12M12 8V3M20 21V16M20 12V3M1 14h6M9 8h6M17 16h6" />
+              </svg>
+              <span>Filtros</span>
+              <span id="filter-count-badge" class="filter-count-badge" style="display:none;">0</span>
+            </button>
+
+            <!-- Sidebar + Grid Layout -->
+            <div class="store-layout">
+              <!-- Filter Sidebar -->
+              <aside id="filter-sidebar" class="filter-sidebar">
+                <div class="filter-sidebar-header">
+                  <h3 class="filter-sidebar-title">Filtros</h3>
+                  <button id="sidebar-close-btn" class="sidebar-close-btn" type="button"
+                    aria-label="Cerrar filtros">&times;</button>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-section" id="filter-section-category">
+                  <button class="filter-section-toggle" type="button" data-target="filter-category-list"
+                    aria-expanded="true">
+                    <span>Categoría</span>
+                    <svg class="toggle-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+                  <div id="filter-category-list" class="filter-section-content">
+                    <!-- Categories rendered by JS -->
+                  </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="filter-section" id="filter-section-price">
+                  <button class="filter-section-toggle" type="button" data-target="filter-price-content"
+                    aria-expanded="true">
+                    <span>Rango de Precio</span>
+                    <svg class="toggle-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2">
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+                  <div id="filter-price-content" class="filter-section-content">
+                    <div class="price-slider-container">
+                      <div class="price-slider-track" id="price-slider-track">
+                        <div class="price-slider-range" id="price-slider-range"></div>
+                        <input type="range" class="price-slider-thumb" id="price-min-slider" min="0" max="4900"
+                          value="0" step="10" />
+                        <input type="range" class="price-slider-thumb" id="price-max-slider" min="0" max="4900"
+                          value="4900" step="10" />
+                      </div>
+                      <div class="price-inputs-row">
+                        <div class="price-input-group">
+                          <label for="price-min-input">Min</label>
+                          <div class="price-input-wrap">
+                            <span class="price-currency">$</span>
+                            <input type="number" id="price-min-input" class="price-input" value="0" min="0" max="4900"
+                              step="10" />
+                          </div>
+                        </div>
+                        <span class="price-separator">—</span>
+                        <div class="price-input-group">
+                          <label for="price-max-input">Max</label>
+                          <div class="price-input-wrap">
+                            <span class="price-currency">$</span>
+                            <input type="number" id="price-max-input" class="price-input" value="4900" min="0"
+                              max="4900" step="10" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Clear Filters Button (sidebar) -->
+                <div class="filter-sidebar-footer">
+                  <button id="sidebar-clear-filters" class="sidebar-clear-btn" type="button">Limpiar todos los
+                    filtros</button>
+                </div>
+              </aside>
+
+              <!-- Overlay for mobile -->
+              <div id="filter-overlay" class="filter-overlay"></div>
+
+              <!-- Product Content Area -->
+              <div class="store-content-area">
+                <div id="result-count" class="result-count-text"></div>
+                <div id="loading-overlay" class="loading-overlay" style="display:none;">
+                  <div class="loading-spinner"></div>
+                </div>
+                <div id="product-grid" role="list" class="best-seller-collection-list dynamic-product-grid">
+                </div>
+                <div id="pagination" class="dynamic-pagination-wrap"></div>
               </div>
-              <div id="category-filters" class="category-filters-wrap"></div>
-              <div id="result-count" class="result-count-text"></div>
             </div>
-            <div id="loading-overlay" class="loading-overlay" style="display:none;">
-              <div class="loading-spinner"></div>
-            </div>
-            <div id="product-grid" role="list" class="best-seller-collection-list dynamic-product-grid">
-            </div>
-            <div id="pagination" class="dynamic-pagination-wrap"></div>
           </div>
         </div>
       </div>
