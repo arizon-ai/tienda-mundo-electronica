@@ -237,9 +237,9 @@
                     <tr>
                         <td>${p.imagen_url
                         ? `<img src="${esc(p.imagen_url)}" class="table-img" onerror="this.style.display='none'" />`
-                        : '<span style="color:rgba(255,255,255,0.2);">—</span>'
+                        : '<span style="color:#ccc;">—</span>'
                     }</td>
-                        <td><code style="color:#635bff;font-size:12px;">${esc(p.codigo)}</code></td>
+                        <td><code style="color:#000;font-size:12px;">${esc(p.codigo)}</code></td>
                         <td class="truncate-300">${esc(p.nombre)}</td>
                         <td style="font-weight:600;">$${(parseFloat(p.precio) || 0).toFixed(2)}</td>
                         <td><span class="badge badge-success">${esc(p.categoria || '—')}</span></td>
@@ -390,12 +390,12 @@
 
                 document.getElementById('product-imagen').value = data.url;
                 statusEl.textContent = '✅ Imagen subida correctamente';
-                statusEl.style.color = '#69f0ae';
+                statusEl.style.color = '#16a34a';
             };
             reader.readAsDataURL(file);
         } catch (err) {
             statusEl.textContent = '❌ Error: ' + err.message;
-            statusEl.style.color = '#ff5252';
+            statusEl.style.color = '#dc2626';
         }
     };
 
@@ -526,7 +526,7 @@
             } else {
                 tbody.innerHTML = data.orders.map(o => `
                     <tr>
-                        <td><code style="font-size:11px;color:rgba(255,255,255,0.5);">${(o.id || '').substring(0, 8)}...</code></td>
+                        <td><code style="font-size:11px;color:#999;">${(o.id || '').substring(0, 8)}...</code></td>
                         <td>${esc(o.customer_name || '—')}</td>
                         <td class="truncate">${esc(o.customer_email || '—')}</td>
                         <td style="font-weight:700;">$${(parseFloat(o.amount_total) || 0).toFixed(2)}</td>
@@ -555,7 +555,7 @@
         let itemsHtml = '';
         if (order.line_items && Array.isArray(order.line_items)) {
             itemsHtml = `
-                <h4 style="font-size:14px;color:#fff;margin:16px 0 8px;">Productos</h4>
+                <h4 style="font-size:14px;color:#000;margin:16px 0 8px;">Productos</h4>
                 <table style="width:100%;">
                     <thead><tr>
                         <th style="text-align:left;">Producto</th>
@@ -579,7 +579,7 @@
         if (order.shipping_address) {
             const addr = order.shipping_address;
             shippingHtml = `
-                <h4 style="font-size:14px;color:#fff;margin:16px 0 8px;">Dirección de Envío</h4>
+                <h4 style="font-size:14px;color:#000;margin:16px 0 8px;">Dirección de Envío</h4>
                 <div class="order-field" style="grid-column:1/-1;">
                     <div class="order-field-value">
                         ${esc(addr.name || '')} ${esc(addr.line1 || '')} ${esc(addr.line2 || '')}<br/>
@@ -612,7 +612,7 @@
                 </div>
                 <div class="order-field">
                     <div class="order-field-label">Total</div>
-                    <div class="order-field-value" style="font-size:20px;font-weight:800;color:#635bff;">
+                    <div class="order-field-value" style="font-size:20px;font-weight:800;color:#000;">
                         $${(parseFloat(order.amount_total) || 0).toFixed(2)} ${(order.currency || 'USD').toUpperCase()}
                     </div>
                 </div>
@@ -669,7 +669,7 @@
         const el = document.createElement('div');
         el.className = 'admin-toast';
         el.innerHTML = `
-            <div class="admin-toast-inner" style="border-left: 3px solid ${type === 'error' ? '#ff5252' : '#69f0ae'};">
+            <div class="admin-toast-inner" style="border-left: 3px solid ${type === 'error' ? '#dc2626' : '#16a34a'};">
                 <span>${message}</span>
             </div>
         `;
