@@ -1,32 +1,433 @@
 /* Mundo Electronica - Custom Overrides */
 
-/* Header logo: constrain the large PNG to fit the navbar cleanly */
+/* ─── Header Logo ─────────────────────────────────────── */
 .main-logo-wrap .main-logo {
   max-height: 40px;
   width: auto;
   object-fit: contain;
 }
 
-/* Footer icon: constrain the atom icon */
 .sellifyx-logo-wrap .logo-icon {
   max-height: 50px;
   width: auto;
   object-fit: contain;
 }
 
-/* Responsive adjustments */
+/* ─── Store: Dynamic Product Grid ─────────────────────── */
+.dynamic-product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  min-height: 400px;
+  position: relative;
+}
+
+.dynamic-product-grid .best-seller-collectioin-item {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE: Tablet (max-width: 991px)
+   ═══════════════════════════════════════════════════════ */
 @media screen and (max-width: 991px) {
   .main-logo-wrap .main-logo {
     max-height: 32px;
   }
+
+  /* Store grid: 2 columns on tablet */
+  .dynamic-product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px;
+  }
+
+  /* Category buttons: scroll horizontally on tablet */
+  .category-filters-wrap {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+    gap: 6px;
+  }
+
+  .category-filters-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
+  /* Sort select: full width on tablet */
+  .store-sort-select {
+    min-width: auto;
+    width: 100%;
+  }
+
+  /* Product images: shorter on tablet */
+  .dynamic-product-grid .best-seller-image {
+    height: 220px;
+  }
+
+  /* Store hero section */
+  .store-hero-layout {
+    flex-direction: column !important;
+  }
+
+  .store-category-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .store-product-list-wrap {
+    width: 100% !important;
+  }
+
+  /* Category badge on product card */
+  .category-box {
+    padding: 6px 12px;
+    bottom: 15px !important;
+    right: 15px !important;
+  }
+
+  .category-box .paragraph-regular {
+    font-size: 11px;
+  }
+
+  /* Pagination: better touch targets */
+  .pagination-btn {
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 13px;
+  }
 }
 
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE: Mobile Landscape (max-width: 767px)
+   ═══════════════════════════════════════════════════════ */
+@media screen and (max-width: 767px) {
+
+  /* Store search: stack vertically */
+  .store-search-sort-wrap {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .store-search-form {
+    min-width: 100% !important;
+    width: 100%;
+  }
+
+  .store-search-input {
+    font-size: 16px;
+    /* Prevents iOS zoom on focus */
+  }
+
+  .store-sort-select {
+    width: 100%;
+    min-width: auto !important;
+    font-size: 16px;
+  }
+
+  /* Product grid: 2 columns on mobile landscape */
+  .dynamic-product-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px;
+  }
+
+  .dynamic-product-grid .best-seller-image {
+    height: 180px;
+  }
+
+  /* Reduce text sizes for cards */
+  .dynamic-product-grid .price-text {
+    font-size: 14px;
+  }
+
+  .dynamic-product-grid .h5 {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .dynamic-product-grid .paragraph-regular.best-seller {
+    font-size: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Footer: stack columns */
+  .footer-layout {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .footer-link-wrap {
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* About hero */
+  .about-hero-typography-wrap .h1 {
+    font-size: 32px !important;
+  }
+
+  /* Product detail: stack layout */
+  .product-detail-layout {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .product-detail-image-wrap,
+  .product-detail-info-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Community section */
+  .community-form-box {
+    flex-direction: column !important;
+  }
+
+  .community-text-box {
+    min-width: auto !important;
+    width: 100% !important;
+  }
+
+  .comminuty-submit {
+    width: 100%;
+  }
+
+  /* Policy cards: 1 column */
+  .policy-card-wrap {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE: Mobile Portrait (max-width: 479px)
+   ═══════════════════════════════════════════════════════ */
 @media screen and (max-width: 479px) {
   .main-logo-wrap .main-logo {
     max-height: 28px;
   }
-  
+
   .sellifyx-logo-wrap .logo-icon {
     max-height: 40px;
+  }
+
+  /* Store: single column grid for small phones */
+  .dynamic-product-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px;
+  }
+
+  .dynamic-product-grid .best-seller-image {
+    height: 220px;
+  }
+
+  /* Category buttons: smaller, tighter */
+  .category-filter-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  /* Search */
+  .store-search-btn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  /* Price text */
+  .dynamic-product-grid .price-text {
+    font-size: 15px;
+  }
+
+  .dynamic-product-grid .h5 {
+    font-size: 15px;
+  }
+
+  /* Product card description */
+  .dynamic-product-grid .paragraph-regular.best-seller {
+    font-size: 13px;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Category badge on product card */
+  .category-box {
+    padding: 5px 10px;
+    bottom: 10px !important;
+    right: 10px !important;
+  }
+
+  .category-box .paragraph-regular {
+    font-size: 10px;
+  }
+
+  /* Pagination: mobile-friendly */
+  .dynamic-pagination-wrap {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .pagination-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  /* Result count */
+  .result-count-text {
+    font-size: 12px;
+  }
+
+  /* Store hero text */
+  .store-category-wrap .h1 {
+    font-size: 28px !important;
+  }
+
+  .store-category-wrap .paragraph-small {
+    font-size: 13px;
+  }
+
+  /* Dynamic store controls spacing */
+  .dynamic-store-controls {
+    padding: 12px 0;
+  }
+
+  /* Footer social icons */
+  .footer-icon-wrap {
+    gap: 12px;
+  }
+
+  /* Navbar: tighter on mobile */
+  .navbar-container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* General container padding */
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Section padding: less on mobile */
+  .section.store-padding {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  /* Product Detail page: mobile */
+  .product-detail-image-wrap img {
+    border-radius: 16px;
+    max-height: 350px;
+    object-fit: contain;
+  }
+
+  .product-detail-info-wrap {
+    padding: 0 !important;
+  }
+
+  .product-detail-info-wrap .h2 {
+    font-size: 22px !important;
+  }
+
+  .product-detail-info-wrap .price-text {
+    font-size: 20px !important;
+  }
+
+  /* Auth pages: mobile */
+  .authentication-layout {
+    padding: 20px !important;
+  }
+
+  .authentication-form-wrap {
+    padding: 24px !important;
+    max-width: 100% !important;
+  }
+
+  /* Blog cards */
+  .blogs-collection-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Category layout (home page) */
+  .category-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* Hero section */
+  .hero-home-title {
+    font-size: 32px !important;
+  }
+
+  .hero-typography-wrap {
+    max-width: 100% !important;
+  }
+
+  /* Policy bottom section */
+  .policy-bootm-wrap {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Best seller title: stack */
+  .best-seller-title-wrap,
+  .featured-title-wrap {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Experience section */
+  .exprience-text-button-box {
+    width: 100% !important;
+    padding: 24px !important;
+  }
+
+  /* Checkout form */
+  .checkout-form-wrap {
+    padding: 20px !important;
+  }
+
+  /* Contact form */
+  .contact-left-wrap,
+  .contact-form-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .contact-layout {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  /* Support layout */
+  .support-layout {
+    flex-direction: column !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   GLOBAL: Touch-friendly improvements
+   ═══════════════════════════════════════════════════════ */
+@media (hover: none) and (pointer: coarse) {
+
+  /* Disable hover effects on touch devices */
+  .dynamic-product-grid .best-seller-card-box:hover .best-seller-image {
+    transform: none;
+  }
+
+  /* Larger touch targets */
+  .category-filter-btn,
+  .pagination-btn,
+  .store-search-btn {
+    min-height: 44px;
   }
 }
