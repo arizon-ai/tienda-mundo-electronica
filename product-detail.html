@@ -437,8 +437,9 @@
       (function () {
         'use strict';
 
+        var SUPABASE_URL = 'https://bd.clients.arizonai.cloud';
+        var SUPABASE_ANON_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc3MDc0MTg0MCwiZXhwIjo0OTI2NDE1NDQwLCJyb2xlIjoiYW5vbiJ9.G9y4jfrnmnceD9qmaXFSH0Q6Zj14pbZZF40F5YffaOE';
         var MAX_RETRIES = 2;
-        var STORE_TIMEOUT_MS = 15000;
 
         function showError(msg) {
           var productContent = document.getElementById('product-content');
@@ -448,6 +449,26 @@
           if (loadingEl) loadingEl.style.display = 'none';
           if (errorEl) errorEl.style.display = 'block';
           console.error('[ProductDetail] ' + msg);
+        }
+
+        // Direct REST API fetch - no Supabase SDK needed
+        function fetchProductDirect(codigo) {
+          var url = SUPABASE_URL + '/rest/v1/productos?select=*&cliente=eq.mundo-electronica&codigo=eq.' + encodeURIComponent(codigo);
+          return fetch(url, {
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+              'Accept': 'application/json'
+            }
+          }).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+          }).then(function (rows) {
+            if (rows && rows.length > 0) {
+              return { data: rows[0], error: null };
+            }
+            return { data: null, error: 'Product not found' };
+          });
         }
 
         function init() {
@@ -462,39 +483,58 @@
           var productContent = document.getElementById('product-content');
           if (productContent) productContent.style.opacity = '0.3';
 
-          // Wait for MundoElectronica.store to be available
+          // Try SDK first for 5s, then fallback to direct REST
           var elapsed = 0;
           var checkStore = setInterval(function () {
             elapsed += 100;
             if (window.MundoElectronica && window.MundoElectronica.store) {
               clearInterval(checkStore);
-              loadProductWithRetry(codigo, 0);
-            } else if (elapsed >= STORE_TIMEOUT_MS) {
+              console.log('[ProductDetail] Using Supabase SDK');
+              loadWithSDK(codigo, 0);
+            } else if (elapsed >= 5000) {
               clearInterval(checkStore);
-              showError('Store API did not load within ' + (STORE_TIMEOUT_MS / 1000) + 's. Try refreshing the page.');
+              console.log('[ProductDetail] SDK unavailable, using direct REST API');
+              loadWithDirectFetch(codigo, 0);
             }
           }, 100);
         }
 
-        function loadProductWithRetry(codigo, attempt) {
+        function loadWithSDK(codigo, attempt) {
           window.MundoElectronica.store.fetchProduct(codigo).then(function (result) {
             if (result.error || !result.data) {
               if (attempt < MAX_RETRIES) {
-                console.warn('[ProductDetail] Attempt ' + (attempt + 1) + ' failed for ' + codigo + ', retrying...');
-                setTimeout(function () { loadProductWithRetry(codigo, attempt + 1); }, 1000);
+                setTimeout(function () { loadWithSDK(codigo, attempt + 1); }, 1000);
                 return;
               }
-              showError('Product not found: ' + codigo + (result.error ? ' (' + JSON.stringify(result.error) + ')' : ''));
+              // Final fallback: try direct REST
+              console.warn('[ProductDetail] SDK failed, falling back to direct REST');
+              loadWithDirectFetch(codigo, 0);
+              return;
+            }
+            renderProduct(result.data);
+          }).catch(function (err) {
+            console.warn('[ProductDetail] SDK error, falling back to direct REST', err);
+            loadWithDirectFetch(codigo, 0);
+          });
+        }
+
+        function loadWithDirectFetch(codigo, attempt) {
+          fetchProductDirect(codigo).then(function (result) {
+            if (result.error || !result.data) {
+              if (attempt < MAX_RETRIES) {
+                setTimeout(function () { loadWithDirectFetch(codigo, attempt + 1); }, 1000);
+                return;
+              }
+              showError('Producto no encontrado: ' + codigo);
               return;
             }
             renderProduct(result.data);
           }).catch(function (err) {
             if (attempt < MAX_RETRIES) {
-              console.warn('[ProductDetail] Fetch error, retrying...', err);
-              setTimeout(function () { loadProductWithRetry(codigo, attempt + 1); }, 1000);
+              setTimeout(function () { loadWithDirectFetch(codigo, attempt + 1); }, 1000);
               return;
             }
-            showError('Error fetching product: ' + (err.message || err));
+            showError('Error de conexión: ' + (err.message || err));
           });
         }
 
