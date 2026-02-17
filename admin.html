@@ -23,8 +23,8 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
+            background: #f5f5f5;
+            color: #1a1a1a;
             min-height: 100vh;
         }
 
@@ -36,8 +36,8 @@
 
         .admin-sidebar {
             width: 260px;
-            background: rgba(255, 255, 255, 0.03);
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            background: #fff;
+            border-right: 1px solid #e5e5e5;
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -57,13 +57,13 @@
 
         .sidebar-brand {
             padding: 24px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid #e5e5e5;
         }
 
         .sidebar-brand h2 {
             font-size: 16px;
             font-weight: 700;
-            color: #fff;
+            color: #000;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -71,9 +71,9 @@
 
         .sidebar-brand span {
             font-size: 12px;
-            color: #fff;
+            color: #000;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.12);
+            background: #f0f0f0;
             padding: 2px 8px;
             border-radius: 4px;
         }
@@ -88,7 +88,7 @@
             align-items: center;
             gap: 12px;
             padding: 12px 20px;
-            color: rgba(255, 255, 255, 0.5);
+            color: #888;
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -98,14 +98,14 @@
         }
 
         .sidebar-nav a:hover {
-            color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.03);
+            color: #333;
+            background: #f9f9f9;
         }
 
         .sidebar-nav a.active {
-            color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-            border-left-color: #fff;
+            color: #000;
+            background: #f5f5f5;
+            border-left-color: #000;
         }
 
         .sidebar-nav a .nav-icon {
@@ -116,13 +116,13 @@
 
         .sidebar-footer {
             padding: 16px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid #e5e5e5;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.3);
+            color: #999;
         }
 
         .sidebar-footer a {
-            color: rgba(255, 255, 255, 0.6);
+            color: #555;
             text-decoration: none;
         }
 
@@ -137,12 +137,12 @@
         .page-header h1 {
             font-size: 24px;
             font-weight: 700;
-            color: #fff;
+            color: #000;
         }
 
         .page-header p {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
+            color: #888;
             margin-top: 4px;
         }
 
@@ -155,15 +155,15 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 14px;
             padding: 20px;
             transition: border-color 0.2s;
         }
 
         .stat-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: #ccc;
         }
 
         .stat-card .stat-icon {
@@ -174,20 +174,20 @@
         .stat-card .stat-value {
             font-size: 28px;
             font-weight: 800;
-            color: #fff;
+            color: #000;
             margin-bottom: 4px;
         }
 
         .stat-card .stat-label {
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
             font-weight: 500;
         }
 
         /* ─── Tables ─── */
         .admin-table-wrap {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 14px;
             overflow: hidden;
         }
@@ -197,7 +197,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 16px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid #e5e5e5;
             flex-wrap: wrap;
             gap: 12px;
         }
@@ -205,7 +205,7 @@
         .table-header h3 {
             font-size: 16px;
             font-weight: 600;
-            color: #fff;
+            color: #000;
         }
 
         .table-actions {
@@ -225,23 +225,23 @@
             padding: 12px 16px;
             font-size: 12px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid #e5e5e5;
             white-space: nowrap;
         }
 
         tbody td {
             padding: 12px 16px;
             font-size: 13px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid #f0f0f0;
+            color: #333;
             vertical-align: middle;
         }
 
         tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: #f9f9f9;
         }
 
         tbody tr:last-child td {
@@ -253,7 +253,7 @@
             height: 40px;
             border-radius: 8px;
             object-fit: cover;
-            background: rgba(255, 255, 255, 0.05);
+            background: #f5f5f5;
         }
 
         .table-overflow {
@@ -277,31 +277,31 @@
         }
 
         .btn-primary {
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
         }
 
         .btn-primary:hover {
-            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             transform: translateY(-1px);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: rgba(255, 255, 255, 0.8);
+            background: #f0f0f0;
+            color: #333;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: #e5e5e5;
         }
 
         .btn-danger {
-            background: rgba(255, 82, 82, 0.15);
-            color: #ff5252;
+            background: #fef2f2;
+            color: #dc2626;
         }
 
         .btn-danger:hover {
-            background: rgba(255, 82, 82, 0.25);
+            background: #fee2e2;
         }
 
         .btn-sm {
@@ -311,10 +311,10 @@
 
         /* ─── Inputs ─── */
         .input {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #fff;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            color: #fff;
+            color: #000;
             padding: 10px 14px;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
@@ -324,24 +324,24 @@
         }
 
         .input:focus {
-            border-color: rgba(255, 255, 255, 0.4);
+            border-color: #000;
         }
 
         .input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
+            color: #aaa;
         }
 
         select.input {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 12px center;
             padding-right: 32px;
         }
 
         select.input option {
-            background: #1a1a1a;
-            color: #fff;
+            background: #fff;
+            color: #000;
         }
 
         textarea.input {
@@ -362,7 +362,7 @@
             display: block;
             font-size: 12px;
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.5);
+            color: #666;
             margin-bottom: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -395,8 +395,8 @@
         }
 
         .modal {
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 16px;
             width: 560px;
             max-width: 92vw;
@@ -415,19 +415,19 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 24px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid #e5e5e5;
         }
 
         .modal-header h3 {
             font-size: 18px;
             font-weight: 700;
-            color: #fff;
+            color: #000;
         }
 
         .modal-close {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.5);
+            color: #999;
             font-size: 20px;
             cursor: pointer;
             width: 32px;
@@ -440,7 +440,7 @@
         }
 
         .modal-close:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: #f0f0f0;
         }
 
         .modal-body {
@@ -449,7 +449,7 @@
 
         .modal-footer {
             padding: 16px 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid #e5e5e5;
             display: flex;
             gap: 8px;
             justify-content: flex-end;
@@ -465,18 +465,18 @@
         }
 
         .badge-success {
-            background: rgba(0, 200, 83, 0.15);
-            color: #69f0ae;
+            background: #f0fdf4;
+            color: #16a34a;
         }
 
         .badge-warning {
-            background: rgba(255, 193, 7, 0.15);
-            color: #ffd54f;
+            background: #fefce8;
+            color: #ca8a04;
         }
 
         .badge-error {
-            background: rgba(255, 82, 82, 0.15);
-            color: #ff5252;
+            background: #fef2f2;
+            color: #dc2626;
         }
 
         /* ─── Pagination ─── */
@@ -485,9 +485,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: 1px solid #e5e5e5;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
         }
 
         .pagination-btns {
@@ -497,9 +497,9 @@
 
         .pagination-btns button {
             padding: 6px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid #ddd;
             background: transparent;
-            color: rgba(255, 255, 255, 0.6);
+            color: #666;
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
@@ -507,8 +507,8 @@
         }
 
         .pagination-btns button:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
+            background: #f0f0f0;
+            color: #000;
         }
 
         .pagination-btns button:disabled {
@@ -517,9 +517,9 @@
         }
 
         .pagination-btns button.active {
-            background: #fff;
-            border-color: #fff;
-            color: #000;
+            background: #000;
+            border-color: #000;
+            color: #fff;
         }
 
         /* ─── Toast notifications ─── */
@@ -532,13 +532,13 @@
         }
 
         .admin-toast-inner {
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 12px;
             padding: 14px 20px;
             font-size: 14px;
             font-weight: 500;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -572,30 +572,30 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: #0a0a0a;
+            background: #f5f5f5;
         }
 
         .login-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 20px;
             padding: 48px 40px;
             width: 100%;
             max-width: 420px;
             text-align: center;
-            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
         }
 
         .login-card h1 {
             font-size: 24px;
             font-weight: 700;
-            color: #fff;
+            color: #000;
             margin-bottom: 8px;
         }
 
         .login-card p {
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
+            color: #888;
             margin-bottom: 32px;
         }
 
@@ -604,7 +604,7 @@
         }
 
         .login-error {
-            color: #ff5252;
+            color: #dc2626;
             font-size: 13px;
             margin-bottom: 16px;
             display: none;
@@ -618,8 +618,8 @@
         }
 
         .category-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: #fff;
+            border: 1px solid #e5e5e5;
             border-radius: 10px;
             padding: 16px;
             display: flex;
@@ -629,19 +629,19 @@
         }
 
         .category-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
+            border-color: #ccc;
         }
 
         .category-name {
             font-size: 14px;
             font-weight: 600;
-            color: #fff;
+            color: #000;
         }
 
         .category-count {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.05);
+            color: #888;
+            background: #f5f5f5;
             padding: 2px 8px;
             border-radius: 12px;
         }
@@ -650,7 +650,7 @@
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
         }
 
         .empty-state .empty-icon {
@@ -673,8 +673,8 @@
         .spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #fff;
+            border: 3px solid #e5e5e5;
+            border-top-color: #000;
             border-radius: 50%;
             animation: spin 0.7s linear infinite;
         }
@@ -692,8 +692,8 @@
             top: 16px;
             left: 16px;
             z-index: 200;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #f0f0f0;
+            border: 1px solid #ddd;
             color: #fff;
             width: 40px;
             height: 40px;
@@ -747,14 +747,14 @@
         }
 
         .order-field {
-            background: rgba(255, 255, 255, 0.04);
+            background: #f9f9f9;
             border-radius: 8px;
             padding: 12px;
         }
 
         .order-field-label {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.4);
+            color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 4px;
@@ -762,7 +762,7 @@
 
         .order-field-value {
             font-size: 14px;
-            color: #fff;
+            color: #000;
             font-weight: 500;
             word-break: break-all;
         }
