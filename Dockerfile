@@ -16,6 +16,6 @@ RUN rm -f Dockerfile nginx.conf .gitignore .gitattributes && \
     rm -rf .git assets/Docs\ Legales* && \
     rm -f *.ps1 *.md
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["node", "server.js"]
