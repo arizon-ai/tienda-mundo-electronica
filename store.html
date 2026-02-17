@@ -29,11 +29,6 @@
   <script
     type="text/javascript">window.__WEBFLOW_CURRENCY_SETTINGS = { "currencyCode": "USD", "symbol": "$", "decimal": ".", "fractionDigits": 2, "group": ",", "template": "{{wf {\"path\":\"symbol\",\"type\":\"PlainText\"} }} {{wf {\"path\":\"amount\",\"type\":\"CommercePrice\"} }} {{wf {\"path\":\"currencyCode\",\"type\":\"PlainText\"} }}", "hideDecimalForWholeNumbers": false };</script>
   <style>
-    /* ─── Hide Webflow navbar floating search icon ──── */
-    .search-box-wrap .search-icon.w-embed {
-      display: none !important;
-    }
-
     /* ─── Store Search Bar ─────────────────────────── */
     .store-search-bar {
       display: flex;
@@ -64,7 +59,7 @@
       box-shadow: 0 0 0 3px rgba(26, 26, 26, .08);
     }
 
-    .search-icon {
+    .store-search-icon {
       width: 18px;
       height: 18px;
       color: #999;
@@ -1034,7 +1029,7 @@
             <div class="store-search-bar">
               <form id="product-search-form" class="store-search-form">
                 <div class="search-input-wrap">
-                  <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg class="store-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8" />
                     <path d="M21 21l-4.35-4.35" />
                   </svg>
