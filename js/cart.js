@@ -382,44 +382,49 @@
     }
 
     function initProductPage() {
-        // The product-detail page has its own inline script that handles the
-        // add-to-cart button click via window.StripeCheckout.addToCart().
-        // We just add the "Buy Now" button here.
-
-        // Wait for the product to be loaded (the inline script sets the button listener)
-        // We observe when the product content becomes visible
+        // Wait for the product to be loaded, then add "Buy Now" button
         var checkInterval = setInterval(function () {
-            var addToCartBtn = document.getElementById('add-to-cart-btn');
             var priceEl = document.getElementById('product-price');
-            if (!addToCartBtn || !priceEl) return;
+            var actionsEl = document.getElementById('product-actions');
+            if (!priceEl || !actionsEl) return;
 
-            // Check if product is loaded (price is not the default)
             var priceText = priceEl.textContent || '';
             if (priceText === '$ 0.00 USD' || priceText === 'Cargando...') return;
 
             clearInterval(checkInterval);
 
-            // Add "Buy Now" button if not already added
             if (document.querySelector('.stripe-buy-now-btn')) return;
+
+            var successMsg = document.getElementById('cart-success');
 
             var buyNowBtn = document.createElement('button');
             buyNowBtn.className = 'stripe-buy-now-btn';
-            buyNowBtn.style.cssText = 'width:100%;margin-top:8px;';
+            buyNowBtn.style.cssText = 'width:100%;justify-content:center;';
             buyNowBtn.textContent = '\u26A1 Comprar Ahora';
             buyNowBtn.addEventListener('click', function (e) {
                 e.preventDefault();
                 var product = extractProductFromPage();
                 buyNow(product);
             });
-            addToCartBtn.parentElement.appendChild(buyNowBtn);
+
+            // Insert before the success message
+            if (successMsg) {
+                actionsEl.insertBefore(buyNowBtn, successMsg);
+            } else {
+                actionsEl.appendChild(buyNowBtn);
+            }
 
             var badge = document.createElement('div');
             badge.className = 'stripe-powered';
+            badge.style.cssText = 'justify-content:center;width:100%;';
             badge.innerHTML = '\uD83D\uDD12 Pago seguro con Stripe';
-            addToCartBtn.parentElement.appendChild(badge);
+            if (successMsg) {
+                actionsEl.insertBefore(badge, successMsg);
+            } else {
+                actionsEl.appendChild(badge);
+            }
         }, 200);
 
-        // Stop checking after 15 seconds
         setTimeout(function () { clearInterval(checkInterval); }, 15000);
     }
 

@@ -367,20 +367,16 @@
                 </div>
                 <div class="product-price-button-wrap" style="opacity:1">
                   <div id="product-price" class="h3 price">$ 0.00 USD</div>
-                  <div class="product-button-box-wrap">
-                    <div class="add-to-cart-wrap">
-                      <div class="default-state">
-                        <button id="add-to-cart-btn" class="button w-commerce-commerceaddtocartbutton"
-                          style="margin-bottom:8px;width:100%;">Agregar al Carrito</button>
-                        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
-                          <label for="product-qty" class="field-label">Cantidad</label>
-                          <input type="number" id="product-qty" name="quantity" min="1" value="1"
-                            class="w-commerce-commerceaddtocartquantityinput quantity" style="width:70px;" />
-                        </div>
-                        <p id="cart-success" style="display:none;margin-top:12px;color:#22c55e;font-size:14px;">✓
-                          Agregado al carrito</p>
-                      </div>
+                  <div id="product-actions" style="display:flex;flex-direction:column;gap:12px;max-width:360px;">
+                    <div style="display:flex;gap:12px;align-items:center;">
+                      <label for="product-qty" style="font-family:Inter,sans-serif;font-size:14px;font-weight:500;color:#555;">Cantidad:</label>
+                      <input type="number" id="product-qty" name="quantity" min="1" value="1"
+                        style="width:70px;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:Inter,sans-serif;text-align:center;" />
                     </div>
+                    <button id="add-to-cart-btn" class="button w-commerce-commerceaddtocartbutton"
+                      style="width:100%;padding:14px 24px;border-radius:10px;font-size:15px;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;background:#1a1a1a;color:#fff;border:none;transition:all 0.2s;">Agregar al Carrito</button>
+                    <!-- Buy Now button and Stripe badge inserted here by cart.js -->
+                    <p id="cart-success" style="display:none;margin-top:4px;color:#22c55e;font-size:14px;font-family:Inter,sans-serif;">✓ Agregado al carrito</p>
                   </div>
                 </div>
               </div>
