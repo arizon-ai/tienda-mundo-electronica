@@ -176,6 +176,12 @@
         var detailUrl = '/product-detail?codigo=' + encodeURIComponent(product.codigo);
         var category = escapeHtml(product.categoria || 'General');
 
+        // Build data attributes for the add-to-cart button
+        var cartDataName = escapeAttr(sanitizeName(product.nombre));
+        var cartDataPrice = typeof product.precio === 'number' ? product.precio : parseFloat(product.precio) || 0;
+        var cartDataImg = escapeAttr(product.imagen_url || '');
+        var cartDataCodigo = escapeAttr(product.codigo || '');
+
         return '<div class="best-seller-collectioin-item w-dyn-item" role="listitem">' +
             '<div class="best-seller-card-box product-card-dynamic">' +
             '<div class="best-seller-image-box">' +
@@ -185,7 +191,7 @@
             '</a>' +
             '<a href="javascript:void(0)" class="category-box w-inline-block" ' +
             'style="background-color:rgb(255,255,255);" ' +
-            'onclick="window.productLoader.toggleCategory(\'' + escapeAttr(product.categoria || 'General') + '\')">' +
+            'onclick="window.productLoader.toggleCategory(\'' + escapeJsAttr(product.categoria || 'General') + '\')">' +
             '<p style="color:rgb(91,91,91)" class="paragraph-regular">' + category + '</p>' +
             '</a>' +
             '</div>' +
@@ -197,6 +203,12 @@
             '</a>' +
             '</div>' +
             '<p class="paragraph-regular best-seller">' + desc + '</p>' +
+            '<button class="add-to-cart-btn" ' +
+            'data-name="' + cartDataName + '" ' +
+            'data-price="' + cartDataPrice + '" ' +
+            'data-image="' + cartDataImg + '" ' +
+            'data-codigo="' + cartDataCodigo + '" ' +
+            'onclick="window.productLoader.addToCart(this)">Agregar al Carrito</button>' +
             '</div>' +
             '</div>' +
             '</div>';
@@ -212,7 +224,7 @@
             html += '<label class="filter-checkbox-item">' +
                 '<input type="checkbox" value="' + escapeAttr(cat.name) + '" ' +
                 (checked ? 'checked ' : '') +
-                'onchange="window.productLoader.toggleCategory(\'' + escapeAttr(cat.name) + '\')" />' +
+                'onchange="window.productLoader.toggleCategory(\'' + escapeJsAttr(cat.name) + '\')" />' +
                 '<span class="filter-checkbox-label">' + escapeHtml(cat.name) + '</span>' +
                 '<span class="filter-checkbox-count">' + cat.count + '</span>' +
                 '</label>';
@@ -338,7 +350,7 @@
             html += '<span class="filter-tag">' +
                 escapeHtml(tag.label) +
                 '<button class="filter-tag-remove" ' +
-                'onclick="window.productLoader.removeFilter(\'' + tag.type + '\', \'' + escapeAttr(tag.value) + '\')" ' +
+                'onclick="window.productLoader.removeFilter(\'' + tag.type + '\', \'' + escapeJsAttr(tag.value) + '\')" ' +
                 'aria-label="Eliminar filtro">&times;</button>' +
                 '</span>';
         });
@@ -509,8 +521,25 @@
         return d.innerHTML;
     }
 
+    // Escape for HTML attribute values (data-*, src, etc.)
     function escapeAttr(str) {
-        return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        return String(str || '')
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+    }
+
+    // Escape for JS string literals embedded inside HTML onclick attributes
+    // First JS-escape, then HTML-escape
+    function escapeJsAttr(str) {
+        return String(str || '')
+            .replace(/\\/g, '\\\\')
+            .replace(/'/g, "\\'")
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     }
 
     function truncate(str, max) {
@@ -637,6 +666,20 @@
 
         retry: function () {
             fetchProducts();
+        },
+
+        addToCart: function (btn) {
+            if (!window.StripeCheckout) {
+                console.error('[ProductLoader] StripeCheckout not available');
+                return;
+            }
+            var item = {
+                name: btn.getAttribute('data-name'),
+                price: parseFloat(btn.getAttribute('data-price')) || 0,
+                image: btn.getAttribute('data-image') || null,
+                codigo: btn.getAttribute('data-codigo') || ''
+            };
+            window.StripeCheckout.addToCart(item);
         }
     };
 

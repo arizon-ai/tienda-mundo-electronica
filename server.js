@@ -467,8 +467,8 @@ app.post('/create-checkout-session', async (req, res) => {
         }
 
         const line_items = items.map(item => {
-            if (!item.name || !item.price || !item.quantity) {
-                throw new Error('Each item must have name, price, and quantity');
+            if (!item.name || item.price == null || item.price < 0 || !item.quantity) {
+                throw new Error('Each item must have name, a non-negative price, and quantity');
             }
 
             return {
