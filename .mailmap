@@ -1,0 +1,13 @@
+# Identidades de git del equipo: muestra cada commit con el nombre de quien lo hizo,
+# sin reescribir la historia (git log, shortlog y blame lo respetan).
+Jose Guzman <amilcarjoseguzman@gmail.com>
+Jose Guzman <amilcarjoseguzman@gmail.com> <sinapxi@sinapxi.com>
+Jose Guzman <amilcarjoseguzman@gmail.com> <you@example.com>
+Jose Guzman <amilcarjoseguzman@gmail.com> <builder@MacBook-Pro-de-Jose.local>
+Jose Guzman <amilcarjoseguzman@gmail.com> <134986887+amilcarjose-dev@users.noreply.github.com>
+Jose Guzman <amilcarjoseguzman@gmail.com> <arizon@arizon.ai>
+Daniel Vergara <daniel@arizon.ai>
+Daniel Vergara <daniel@arizon.ai> <arizonlatinoamerica@gmail.com>
+Daniel Vergara <daniel@arizon.ai> <daniel@MacBook-Pro-de-Daniel.local>
+Daniel Vergara <daniel@arizon.ai> <178035669+arizon-ai@users.noreply.github.com>
+Daniel Vergara <daniel@arizon.ai> <arizon-ai@users.noreply.github.com>
